@@ -10,8 +10,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
      "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "author": "None",
-  "license": "MIT",
+  "author": "Yash",
+  "license": "GNU",
   "dependencies": {
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
@@ -36,5 +36,6 @@
     "nodemon": "^1.19.4",
     "query-string": "^6.8.3",
     "uuid": "^3.3.3"
-  }
+  },
+  "devDependencies": { "nodemon": "^2.0.15"}
 }
