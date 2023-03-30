@@ -35,7 +35,8 @@
     "nodemailer": "^6.3.1",
     "nodemon": "^1.19.4",
     "query-string": "^6.8.3",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "nodemon": "^1.19.4"
   },
-  "devDependencies": { "nodemon": "^2.0.15"}
+  "devDependencies": { "nodemon": "^1.19.4"}
 }
