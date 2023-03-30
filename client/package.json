@@ -11,8 +11,6 @@
     "braintree-web-drop-in-react": "^1.2.1",
     "nodemon": "^1.19.4"
   },
-  "devDependencies": { "nodemon": "^1.19.4"}
-  },
   "scripts": {
     "start": "PORT=3010 react-scripts start",
     "build": "react-scripts build",
@@ -36,6 +34,7 @@
   },
   "proxy": "http://localhost:5001",
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "nodemon":"^1.19.4"
   }
 }
