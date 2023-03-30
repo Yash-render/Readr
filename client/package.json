@@ -7,7 +7,8 @@
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "braintree-web-drop-in-react": "^1.2.1"
   },
   "scripts": {
     "start": "PORT=3010 react-scripts start",
