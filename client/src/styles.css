@@ -154,3 +154,10 @@ a:focus, button:focus {
   background-color: #004080;
   border-color: #003366;
 }
+
+.card img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}

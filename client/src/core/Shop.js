@@ -5,6 +5,7 @@ import Checkbox from './Checkbox';
 import RadioBox from './RadioBox';
 import Card from './Card';
 import { getCategories, getFilteredProducts } from './apiCore';
+import Layout from './Layout'; // Ensure Layout is imported
 
 const Shop = () => {
     const [myFilters, setMyFilters] = useState({
@@ -16,35 +17,44 @@ const Shop = () => {
     const [skip, setSkip] = useState(0);
     const [size, setSize] = useState(0);
     const [filteredResults, setFilteredResults] = useState([]);
+    const [loading, setLoading] = useState(true); // Initialize loading as true
 
     useEffect(() => {
         init();
         loadFilteredResults(skip, limit, myFilters.filters);
-        showLoading();
+        // eslint-disable-next-line
     }, []);
 
+    // Initialize categories
     const init = () => {
         getCategories().then(data => {
             if (data.error) {
                 setError(data.error);
+                setLoading(false); // Stop loading on error
             } else {
                 setCategories(data);
+                setLoading(false); // Stop loading after setting categories
             }
         });
     };
 
+    // Load filtered results with updated loading state
     const loadFilteredResults = (newFilters) => {
+        setLoading(true); // Start loading
         getFilteredProducts(skip, limit, newFilters).then(data => {
             if (data.error) {
                 setError(data.error);
+                setLoading(false); // Stop loading on error
             } else {
                 setFilteredResults(data.data);
                 setSize(data.size);
                 setSkip(0);
+                setLoading(false); // Stop loading after fetching data
             }
         });
     };
 
+    // Handle filters
     const handleFilters = (filters, filterBy) => {
         const newFilters = { ...myFilters };
         newFilters.filters[filterBy] = filters;
@@ -58,6 +68,7 @@ const Shop = () => {
         setMyFilters(newFilters);
     };
 
+    // Handle price range
     const handlePrice = (value) => {
         const data = [
             { _id: 0, name: "Any", array: [0, 1000] },
@@ -71,63 +82,37 @@ const Shop = () => {
         return priceRange ? priceRange.array : [];
     };
 
-    const showFilters = () => (
-        <div className="filter-section">
-            <h4>Filter by Categories</h4>
-            <Checkbox
-                categories={categories}
-                handleFilters={filters => handleFilters(filters, "category")}
-            />
-
-            <h4 className="mt-4">Filter by Price Range</h4>
-            <RadioBox
-                prices={[
-                    { _id: 0, name: 'Any', array: [0, 1000] },
-                    { _id: 1, name: '₹0 to ₹499', array: [0, 499] },
-                    { _id: 2, name: '₹500 to ₹999', array: [500, 999] },
-                    { _id: 3, name: '₹1000 to ₹1499', array: [1000, 1499] },
-                    { _id: 4, name: 'Above ₹1500', array: [1500, 20000] }
-                ]}
-                handleFilters={filters => handleFilters(filters, "price")}
-            />
-        </div>
-    );
-
-    const loadMore = () => {
-        let toSkip = skip + limit;
-        getFilteredProducts(toSkip, limit, myFilters.filters).then(data => {
-            if (data.error) {
-                setError(data.error);
-            } else {
-                setFilteredResults([...filteredResults, ...data.data]);
-                setSize(data.size);
-                setSkip(toSkip);
-            }
-        });
-    };
-
-    const loadMoreButton = () => {
-        return (
-            size > 0 && size >= limit && (
-                <button onClick={loadMore} className="btn btn-warning mb-5">
-                    Load More
-                </button>
-            )
-        );
-    };
-
+    // Display loading indicator
     const showLoading = () => (
-        <div className="alert alert-success">
-            <h2>Loading...</h2>
-        </div>
+        loading && (
+            <div className="alert alert-success">
+                <h2>Loading...</h2>
+            </div>
+        )
     );
 
     return (
-        <div className="container-fluid">
+        <Layout title="Shop Page" description="Browse our products here" className="container-fluid">
             <div className="row">
                 {/* Filters */}
                 <div className="col-12 col-md-3 mb-4">
-                    {showFilters()}
+                    <h4>Filter by Categories</h4>
+                    <Checkbox
+                        categories={categories}
+                        handleFilters={filters => handleFilters(filters, "category")}
+                    />
+
+                    <h4 className="mt-4">Filter by Price Range</h4>
+                    <RadioBox
+                        prices={[
+                            { _id: 0, name: 'Any', array: [0, 1000] },
+                            { _id: 1, name: '₹0 to ₹499', array: [0, 499] },
+                            { _id: 2, name: '₹500 to ₹999', array: [500, 999] },
+                            { _id: 3, name: '₹1000 to ₹1499', array: [1000, 1499] },
+                            { _id: 4, name: 'Above ₹1500', array: [1500, 20000] },
+                        ]}
+                        handleFilters={filters => handleFilters(filters, "price")}
+                    />
                 </div>
 
                 {/* Products */}
@@ -141,10 +126,14 @@ const Shop = () => {
                             </div>
                         ))}
                     </div>
-                    {loadMoreButton()}
+                    {size > 0 && size >= limit && (
+                        <button onClick={loadFilteredResults} className="btn btn-warning mb-5">
+                            Load More
+                        </button>
+                    )}
                 </div>
             </div>
-        </div>
+        </Layout>
     );
 };
 
