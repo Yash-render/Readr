@@ -91,6 +91,7 @@ const Card = ({product, showViewProductButton = true, showAddToCartButton = true
                 <div className="card-body">
                     {shouldRedirect(redirect)}
                     <ShowImage item={product} url="product" />
+                    <img src={product.image} alt={product.name} />
                     
                     <p className = "mt-2">{product.description}</p>
                     <p className = "font-weight-bold">₹ {product.price}</p>

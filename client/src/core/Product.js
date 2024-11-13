@@ -1,6 +1,6 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Layout from './Layout';
-import {read, listRelated} from './apiCore';
+import { read, listRelated } from './apiCore';
 import Card from './Card';
 
 const Product = (props) => {
@@ -12,74 +12,60 @@ const Product = (props) => {
 
     const loadSingleProduct = productId => {
         read(productId).then(data => {
-            if(data.err)
-            {
+            if(data.err) {
                 setError(data.err);
-                console.log(error);
                 setLoading(false);
-            }
-
-            else
-            {
+            } else {
                 setProduct(data);
-                // fetch related products
                 listRelated(data._id).then(data => {
-                    if(data.err)
-                    {
+                    if(data.err) {
                         setError(data.err);
-                    }
-
-                    else
-                    {
+                    } else {
                         setRelatedProducts(data);
                     }
                 });
-
                 setLoading(false);
             }
-        })
+        });
     }
-    
-    const showLoading = () => (
-        loading && (<div className="alert alert-success">
-            <h2 className = "text-center">Loading...</h2>
-        </div>)
-    )
 
     useEffect(() => {
         const productId = props.match.params.productId;
-
         loadSingleProduct(productId);
-        showLoading();
-        // eslint-disable-next-line
-    }, [props])
+    }, [props]);
+
+    const showLoading = () => (
+        loading && (<div className="alert alert-success">
+            <h2>Loading...</h2>
+        </div>)
+    );
 
     return (
         <Fragment>
-            
             {loading ? (
                 showLoading()
-            ): (<Layout title={product && product.name} description={product && product.description && product.description.substring(0, 100)} className="container-fluid">
-                      
-            <div className="row">
-                <div className="col-8">
-                { product && product.description && <Card product={product} showViewProductButton ={false} /> }                
-                </div>
-
-                <div className="col-4">
-                    <h4>Related Products</h4>
-                    {relatedProducts.map((p, i) => (
-                        <div className="mb-3">
-                            <Card key={i} product={p} />    
+            ) : (
+                <Layout title={product.name} description={product.description.substring(0, 100)} className="container-fluid">
+                    <div className="row">
+                        <div className="col-12 col-md-8">
+                            <Card product={product} showViewProductButton={false} />
                         </div>
-                    ) )}
-                </div>
-            </div>
 
-        </Layout>)}
-
+                        <div className="col-12 col-md-4">
+                            <h4>Related Products</h4>
+                            <div className="row">
+                                {relatedProducts.map((p, i) => (
+                                    <div key={i} className="col-12 col-md-6 mb-3">
+                                        <Card product={p} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </Layout>
+            )}
         </Fragment>
-    )
+    );
 }
 
-export default Product
+export default Product;

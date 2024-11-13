@@ -45,9 +45,14 @@ const Signup = () => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Email</label>
-                <input onChange={handleChange('email')} type="email" className="form-control" value={email}/>
-
+                <label htmlFor="email" className="text-muted">Email</label>
+                <input
+                  id="email"
+                  onChange={handleChange('email')}
+                  type="email"
+                  className="form-control"
+                  value={email}
+                />
             </div>
              
             <div className="form-group">
@@ -79,7 +84,7 @@ const Signup = () => {
 
 
     return (
-        <Layout title="Signup" description="Sign up to the Node React E-commerce app" className="container col-md-8 offset-md-2">
+        <Layout title="Signup" description="Sign up to the Node React Online Book Store app" className="container col-md-8 offset-md-2">
             {showError()}
             {showSuccess()}
             {signUpForm()}

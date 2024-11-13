@@ -55,8 +55,9 @@ const Checkout = ({ products }) => {
 
     
     let deliveryAddress = data.address;
-
-    const buy = () => {
+// eslint-disable-next-line 
+    const buy = (event) => {
+        event.preventDefault();
         setData({ loading: true });
         // send the nonce to your server
         // nonce = data.instance.requestPaymentMethod()
@@ -134,9 +135,6 @@ const Checkout = ({ products }) => {
                         }}
                         onInstance={instance => (data.instance = instance)}
                     />
-                    <button onClick={buy} className="btn btn-success btn-block" style={{display: data.success ? "none" : "" }}>
-                        Pay
-                    </button>
                 </div>
             ) : null}
         </div>

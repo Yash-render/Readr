@@ -48,6 +48,7 @@ exports.signup = async(req, res) => {
     await user.save((err, user) => {
         if(err)
         {
+            window.alert("Email already exists");
             return res.status(400).json({msg: errorHandler(err)});
         }
 
