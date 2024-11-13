@@ -7,10 +7,13 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.2.0",
+    "moment": "^2.29.1",
+    "braintree-web-drop-in-react": "^1.2.1",
+    "nodemon": "^1.19.4"
   },
   "scripts": {
-    "start": "cross-env PORT=3010 react-scripts --openssl-legacy-provider start",
+    "start": "PORT=3010 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -32,6 +35,7 @@
   },
   "proxy": "http://localhost:5001",
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "nodemon":"^1.19.4"
   }
 }
